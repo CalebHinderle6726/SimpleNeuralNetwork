@@ -1,0 +1,39 @@
+import numpy as np
+
+# This NeuralNetwork class defines the network as a array of layers and handles learning and backprop
+class NeuralNetwork:
+    def __init__(self, layers):
+        self.layers = layers
+        self.reverseLayers = layers[::-1]
+    
+    def forward(self, X):
+        prevOut = X
+        for layer in self.layers:
+            layer.forward(prevOut)
+            prevOut = layer.predY
+        return self.layers[-1].predY
+
+    def backward(self, X, y, learningRate):
+        grad = self.reverseLayers[0].predY - y.reshape(-1,1)
+        for i in range(len(self.reverseLayers)):
+            if i + 1 < len(self.reverseLayers):
+                grads = self.reverseLayers[i].backward(self.reverseLayers[i+1].predY, grad)
+            else:
+                grads = self.reverseLayers[i].backward(X, grad)
+            self.reverseLayers[i].W1 -= learningRate * grads[2]
+            self.reverseLayers[i].b1 -= learningRate * grads[1]
+            grad = grads[0]
+
+    def train(self, X, y, epochs, learningRate):
+        for _ in range(epochs):
+            self.forward(X)
+            self.backward(X, y, learningRate)
+
+    def loss(self, X, y):
+        return np.mean((self.forward(X) - y.reshape(-1, 1)) ** 2)
+
+
+
+# TODO:
+# 1. is there a way to store the gradient of the loss with respect to the input of each layer at each layer?
+# 2. is there a way to make this class cleaner
