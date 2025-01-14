@@ -1,19 +1,13 @@
 import numpy as np
 
-
-# This class is initial attempt at making modular nn from scratch
-# TODO: change to activation = None and all fixes that come with that etc
 class Layer:
     def __init__(self, inputSize, outputSize, activation, derivative):
         # Input and output of the current layer
         self.inputSize = inputSize
         self.outputSize = outputSize
 
-
         self.activation = activation
         self.derivative = derivative
-
-        # TODO: add like 
 
         # init Weights of the current layer
         self.W1 = np.random.randn(self.inputSize, self.outputSize) / np.sqrt(self.inputSize)
