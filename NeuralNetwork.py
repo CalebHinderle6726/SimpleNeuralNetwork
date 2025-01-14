@@ -31,9 +31,3 @@ class NeuralNetwork:
 
     def loss(self, X, y):
         return np.mean((self.forward(X) - y.reshape(-1, 1)) ** 2)
-
-
-
-# TODO:
-# 1. is there a way to store the gradient of the loss with respect to the input of each layer at each layer?
-# 2. is there a way to make this class cleaner
