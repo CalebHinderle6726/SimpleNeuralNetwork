@@ -3,8 +3,8 @@ import numpy as np
 # This NeuralNetwork class defines the network as a array of layers and handles learning and backprop
 class NeuralNetwork:
     def __init__(self, layers):
-        self.layers = layers
-        self.reverseLayers = layers[::-1]
+        self.layers = list(layers)
+        self.reverseLayers = list(reversed(self.layers))
     
     def forward(self, X):
         prevOut = X
@@ -13,8 +13,7 @@ class NeuralNetwork:
             prevOut = layer.predY
         return self.layers[-1].predY
 
-    def backward(self, X, y, learningRate):
-        grad = self.reverseLayers[0].predY - y.reshape(-1,1)
+    def backward(self, X, grad, learningRate):
         for i in range(len(self.reverseLayers)):
             if i + 1 < len(self.reverseLayers):
                 grads = self.reverseLayers[i].backward(self.reverseLayers[i+1].predY, grad)

@@ -29,7 +29,7 @@ class Layer:
 
         # Gradients of the error wrt. the current layers w, b, and input values
         gradW = np.dot(X.T, gradWrtActiv)
-        gradB = np.sum(gradWrtActiv, axis=0)
+        gradB = np.sum(gradWrtActiv, axis=0, keepdims=True)
         gradX = np.dot(gradWrtActiv, self.W1.T)
 
         return gradX, gradB, gradW
